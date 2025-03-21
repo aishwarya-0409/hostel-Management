@@ -1,0 +1,1370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VITB HostelHub - Campus Hostel Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+        .preview-image { max-height: 150px; object-fit: contain; }
+    </style>
+</head>
+<body class="bg-gray-50" x-data="{ }">
+    <!-- Navigation -->
+    <nav class="bg-black text-white shadow-lg" x-data="{ isOpen: false }">
+        <div class="container mx-auto px-6 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="vitb-logo.png" alt="VITB HostelHub" class="h-12 w-12">
+                    <span class="ml-2 text-2xl font-bold">VITB HostelHub</span>
+                </div>
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-300 hover:text-white">Home</a>
+                    <a href="#services" class="text-gray-300 hover:text-white">Services</a>
+                    <a href="#contact" class="text-gray-300 hover:text-white">Support</a>
+                    <button class="bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700 transition duration-300">
+                        Student Login
+                    </button>
+                </div>
+                <div class="md:hidden">
+                    <button @click="isOpen = !isOpen" type="button" class="text-gray-300 hover:text-white">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <div class="md:hidden" x-show="isOpen" @click.away="isOpen = false">
+                <div class="px-2 pt-2 pb-3 space-y-1">
+                    <a href="#" class="block px-3 py-2 text-gray-300 hover:text-white">Home</a>
+                    <a href="#services" class="block px-3 py-2 text-gray-300 hover:text-white">Services</a>
+                    <a href="#contact" class="block px-3 py-2 text-gray-300 hover:text-white">Support</a>
+                    <button class="w-full bg-blue-600 text-white px-6 py-2 rounded-full hover:bg-blue-700">
+                        Student Login
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="bg-gradient-to-r from-black to-gray-300 text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-6">VITB Hostel Management System</h1>
+            <p class="text-xl mb-8">Exclusively for VITB Students - Streamlined Hostel Services</p>
+            <div class="flex justify-center space-x-4">
+                <button class="bg-white text-blue-800 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 transition duration-300">
+                    Student Portal
+                </button>
+                <button class="border-2 border-white text-white px-8 py-3 rounded-full font-semibold hover:bg-white hover:text-blue-800 transition duration-300">
+                    Hostel Rules
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Grid -->
+    <section id="services" class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center text-gray-800 mb-12">Hostel Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Bicycle Service Card -->
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 cursor-pointer"
+                     @click="$dispatch('open-bicycle-modal')">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-bicycle text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Campus Bicycle Rent</h3>
+                    <p class="text-gray-600">Affordable bicycle rentals for campus mobility</p>
+                </div>
+
+                <!--  Marketplace Service Cards... -->
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 cursor-pointer"
+                    @click="$dispatch('open-marketplace-modal')">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-exchange-alt text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Student Marketplace</h3>
+                    <p class="text-gray-600">Buy/sell academic and hostel essentials</p>
+                </div>
+
+                <!--  lost and found Service Cards... -->
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 cursor-pointer"
+                     @click="$dispatch('open-lost-and-found-modal')">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-search text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Lost & Found</h3>
+                    <p class="text-gray-600">Report or claim items lost on campus</p>
+                </div>
+
+                <!--  Floor management Service Cards... -->
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 cursor-pointer"
+                     @click="$dispatch('open-floor-management-modal')">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                         <i class="fas fa-building text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Floor Management</h3>
+                    <p class="text-gray-600">Hostel maintenance and room allocation</p>
+                 </div>
+
+                <!--  Mess Management Service Cards... -->
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 cursor-pointer"
+                     @click="$dispatch('open-mess-management-modal')">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-utensils text-blue-600 text-2xl"></i>
+                    </div>
+                     <h3 class="text-xl font-semibold mb-2">Mess Management</h3>
+                     <p class="text-gray-600">Weekly menus and meal preferences</p>
+                </div>
+
+                <!--  Laundry Service Cards... -->
+                <div class="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition duration-300 cursor-pointer"
+                     @click="$dispatch('open-laundry-management-modal')">
+                    <div class="bg-blue-100 w-16 h-16 rounded-full flex items-center justify-center mb-4">
+                        <i class="fas fa-tshirt text-blue-600 text-2xl"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Laundry Schedule</h3>
+                    <p class="text-gray-600">Track your laundry status online</p>
+                </div>           
+    </section>
+
+    <!-- Bicycle Management Modal -->
+    <div x-data="bicycleModal" x-cloak 
+         class="fixed inset-0 bg-black bg-opacity-50 z-50" 
+         x-show="showModal" 
+         @click.self="closeModal()">
+        <div class="bg-white rounded-lg p-8 max-w-2xl mx-auto mt-20 relative">
+            <button @click="closeModal()" class="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-700">&times;</button>
+            
+            <h3 class="text-2xl font-bold mb-6">Bicycle Management System</h3>
+            
+            <!-- Section Selector -->
+            <div class="grid grid-cols-3 gap-4 mb-8">
+                <button @click="currentSection = 'lender'" 
+                        :class="currentSection === 'lender' ? 'bg-blue-100 border-blue-300' : 'hover:bg-gray-50'"
+                        class="p-4 border rounded-lg transition-colors">
+                    <i class="fas fa-user-tie text-xl mb-2"></i>
+                    <h4 class="font-semibold">Lender</h4>
+                </button>
+                <button @click="currentSection = 'user'" 
+                        :class="currentSection === 'user' ? 'bg-blue-100 border-blue-300' : 'hover:bg-gray-50'"
+                        class="p-4 border rounded-lg transition-colors">
+                    <i class="fas fa-users text-xl mb-2"></i>
+                    <h4 class="font-semibold">User</h4>
+                </button>
+                <button @click="currentSection = 'portal'" 
+                        :class="currentSection === 'portal' ? 'bg-blue-100 border-blue-300' : 'hover:bg-gray-50'"
+                        class="p-4 border rounded-lg transition-colors">
+                    <i class="fas fa-cogs text-xl mb-2"></i>
+                    <h4 class="font-semibold">Portal</h4>
+                </button>
+            </div>
+
+            <!-- Lender Section -->
+            <div x-show="currentSection === 'lender'">
+                <h4 class="text-xl font-semibold mb-4">Bicycle Lender Registration</h4>
+                <form @submit.prevent="registerLender" class="space-y-4">
+                    <div>
+                        <label class="block mb-2">Full Name</label>
+                        <input type="text" x-model="lenderForm.name" required 
+                               class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block mb-2">Contact Number</label>
+                        <input type="tel" x-model="lenderForm.contact" required 
+                               class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block mb-2">Bicycle Image</label>
+                        <input type="file" @change="handleImageUpload" accept="image/*" 
+                               class="w-full p-2 border rounded">
+                        <template x-if="lenderForm.imagePreview">
+                            <img :src="lenderForm.imagePreview" class="preview-image mt-2">
+                        </template>
+                    </div>
+                    <button type="submit" class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700">
+                        Register Bicycle
+                    </button>
+                </form>
+            </div>
+
+            <!-- User Section -->
+            <div x-show="currentSection === 'user'">
+                <h4 class="text-xl font-semibold mb-4">Bicycle Rental</h4>
+                <form @submit.prevent="registerUser" class="space-y-4">
+                    <div>
+                        <label class="block mb-2">Full Name</label>
+                        <input type="text" x-model="userForm.name" required 
+                               class="w-full p-2 border rounded">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block mb-2">Start Time</label>
+                            <input type="datetime-local" x-model="userForm.start" required 
+                                   class="w-full p-2 border rounded">
+                        </div>
+                        <div>
+                            <label class="block mb-2">End Time</label>
+                            <input type="datetime-local" x-model="userForm.end" required 
+                                   class="w-full p-2 border rounded">
+                        </div>
+                    </div>
+                    <button type="submit" class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">
+                        Submit Rental
+                    </button>
+                </form>
+            </div>
+
+            <!-- Portal Section -->
+            <div x-show="currentSection === 'portal'">
+                <h4 class="text-xl font-semibold mb-4">Portal Management</h4>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block mb-2">Availability Status</label>
+                        <select x-model="portalForm.status" class="w-full p-2 border rounded">
+                            <option>Available</option>
+                            <option>Rented</option>
+                            <option>Maintenance</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block mb-2">Contact Email</label>
+                        <input type="email" x-model="portalForm.email" 
+                               class="w-full p-2 border rounded">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block mb-2">User Rating</label>
+                            <div class="flex gap-1 text-yellow-400 text-xl">
+                                <template x-for="i in 5" :key="i">
+                                    <span @click="portalForm.userRating = i" 
+                                          :class="i <= portalForm.userRating ? 'text-yellow-400' : 'text-gray-300'">
+                                        ★
+                                    </span>
+                                </template>
+                            </div>
+                        </div>
+                        <div>
+                            <label class="block mb-2">Lender Rating</label>
+                            <div class="flex gap-1 text-yellow-400 text-xl">
+                                <template x-for="i in 5" :key="i">
+                                    <span @click="portalForm.lenderRating = i" 
+                                          :class="i <= portalForm.lenderRating ? 'text-yellow-400' : 'text-gray-300'">
+                                        ★
+                                    </span>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <button @click="updatePortal" class="w-full bg-purple-600 text-white p-2 rounded hover:bg-purple-700">
+                        Update Portal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Rest of the HTML (Contact Section, Footer, etc.) -->
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-6">
+            <div class="max-w-4xl mx-auto bg-white rounded-xl shadow-lg p-8">
+                <h2 class="text-3xl font-bold text-center mb-8">Hostel Support</h2>
+                <form class="space-y-6">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <div>
+                            <label class="block text-gray-700 mb-2">Student Name</label>
+                            <input type="text" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        </div>
+                        <div>
+                            <label class="block text-gray-700 mb-2">VITB Email</label>
+                            <input type="email" class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 mb-2">Issue Description</label>
+                        <textarea class="w-full px-4 py-2 border rounded-lg focus:outline-none focus:border-blue-500" rows="4"></textarea>
+                    </div>
+                    <button class="w-full bg-blue-600 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300">
+                        Submit Request
+                    </button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-blue-800 text-white py-12">
+        <div class="container mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h4 class="text-xl font-bold mb-4">VITB HostelHub</h4>
+                    <p class="text-gray-300">Official hostel management portal<br>
+                    VITB University<br>
+                    Contact: hostel-support@vitb.ac.in</p>
+                </div>
+                <div>
+                    <h4 class="text-xl font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-300">
+                        <li><a href="#" class="hover:text-white">Hostel Rules</a></li>
+                        <li><a href="#" class="hover:text-white">Fee Structure</a></li>
+                        <li><a href="#" class="hover:text-white">Emergency Contacts</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-blue-700 mt-8 pt-8 text-center text-gray-300">
+                <p>©  VITB Hostel Management System | For Students, By Students</p>
+            </div>
+        </div>
+    </footer> 
+      
+
+    <script>
+        document.addEventListener('alpine:init', () => {
+            Alpine.data('bicycleModal', () => ({
+                showModal: false,
+                currentSection: 'lender',
+                
+                lenderForm: {
+                    name: '',
+                    contact: '',
+                    image: null,
+                    imagePreview: null
+                },
+                
+                userForm: {
+                    name: '',
+                    start: '',
+                    end: ''
+                },
+                
+                portalForm: {
+                    status: 'Available',
+                    email: '',
+                    userRating: 0,
+                    lenderRating: 0
+                },
+
+                init() {
+                    this.$watch('showModal', value => {
+                        document.body.style.overflow = value ? 'hidden' : 'auto';
+                    });
+
+                    // Event listener from service card
+                    window.addEventListener('open-bicycle-modal', () => {
+                        this.showModal = true;
+                    });
+                },
+
+                closeModal() {
+                    this.showModal = false;
+                    this.resetForms();
+                },
+
+                handleImageUpload(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            this.lenderForm.imagePreview = e.target.result;
+                            this.lenderForm.image = file;
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                },
+
+                registerLender() {
+                    const code = `BIC-${Date.now().toString(36).toUpperCase()}`;
+                    const lender = {
+                        code,
+                        name: this.lenderForm.name,
+                        contact: this.lenderForm.contact,
+                        image: this.lenderForm.imagePreview,
+                        registeredAt: new Date().toISOString()
+                    };
+                    
+                    let lenders = JSON.parse(localStorage.getItem('bicycleLenders') || '[]');
+                    lenders.push(lender);
+                    localStorage.setItem('bicycleLenders', JSON.stringify(lenders));
+                    
+                    alert(`Bicycle Registered!\nCode: ${code}`);
+                    this.resetForms();
+                },
+
+                registerUser() {
+                    const rental = {
+                        name: this.userForm.name,
+                        start: this.userForm.start,
+                        end: this.userForm.end,
+                        rentedAt: new Date().toISOString()
+                    };
+                    
+                    let rentals = JSON.parse(localStorage.getItem('bicycleRentals') || '[]');
+                    rentals.push(rental);
+                    localStorage.setItem('bicycleRentals', JSON.stringify(rentals));
+                    
+                    alert('Rental Registered Successfully!');
+                    this.resetForms();
+                },
+
+                updatePortal() {
+                    const portalData = {
+                        status: this.portalForm.status,
+                        email: this.portalForm.email,
+                        ratings: {
+                            user: this.portalForm.userRating,
+                            lender: this.portalForm.lenderRating
+                        },
+                        updatedAt: new Date().toISOString()
+                    };
+                    
+                    localStorage.setItem('bicyclePortal', JSON.stringify(portalData));
+                    alert('Portal Updated Successfully!');
+                },
+
+                resetForms() {
+                    this.lenderForm = {
+                        name: '',
+                        contact: '',
+                        image: null,
+                        imagePreview: null
+                    };
+                    this.userForm = { name: '', start: '', end: '' };
+                    this.portalForm = {
+                        status: 'Available',
+                        email: '',
+                        userRating: 0,
+                        lenderRating: 0
+                    };
+                }
+            }));
+        });
+
+        // Scroll to Top Functionality
+        const scrollTop = document.getElementById('scrollTop');
+        window.addEventListener('scroll', () => {
+            scrollTop.classList.toggle('hidden', window.scrollY <= 300);
+        });
+        scrollTop.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    </script>
+<!-- Buy & Sell Modal -->
+<div x-data="marketplaceModal" x-cloak 
+     class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" 
+     x-show="showModal" 
+     @click.self="closeModal()">
+    <div class="bg-white rounded-lg p-8 max-w-4xl w-full mx-auto relative max-h-[90vh] overflow-y-auto">
+        <button @click="closeModal()" class="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-700">&times;</button>
+
+        <h3 class="text-2xl font-bold mb-6">Student Marketplace</h3>
+        
+        <!-- Section Selector -->
+        <div class="grid grid-cols-3 gap-4 mb-8">
+            <button @click="currentSection = 'seller'"
+                    :class="currentSection === 'seller' ? 'bg-green-100 border-green-300' : 'hover:bg-gray-50'"
+                    class="p-4 border rounded-lg transition-colors">
+                <i class="fas fa-store text-xl mb-2"></i>
+                <h4 class="font-semibold">Seller</h4>
+            </button>
+            <button @click="currentSection = 'portal'"
+                    :class="currentSection === 'portal' ? 'bg-green-100 border-green-300' : 'hover:bg-gray-50'"
+                    class="p-4 border rounded-lg transition-colors">
+                <i class="fas fa-cogs text-xl mb-2"></i>
+                <h4 class="font-semibold">Portal</h4>
+            </button>
+            <button @click="currentSection = 'buyer'"
+                    :class="currentSection === 'buyer' ? 'bg-green-100 border-green-300' : 'hover:bg-gray-50'"
+                    class="p-4 border rounded-lg transition-colors">
+                <i class="fas fa-shopping-cart text-xl mb-2"></i>
+                <h4 class="font-semibold">Buyer</h4>
+            </button>
+        </div>
+
+        <!-- Seller Section -->
+        <div x-show="currentSection === 'seller'">
+            <h4 class="text-xl font-semibold mb-4">Seller Registration & Item Listing</h4>
+            <form @submit.prevent="registerSeller" class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-2">Seller Name</label>
+                        <input type="text" x-model="sellerForm.name" required 
+                               class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block mb-2">Contact Email</label>
+                        <input type="email" x-model="sellerForm.email" required 
+                               class="w-full p-2 border rounded">
+                    </div>
+                </div>
+                <div>
+                    <label class="block mb-2">Item Name</label>
+                    <input type="text" x-model="sellerForm.itemName" required 
+                           class="w-full p-2 border rounded">
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-2">Price (₹)</label>
+                        <input type="number" x-model="sellerForm.price" required 
+                               class="w-full p-2 border rounded">
+                    </div>
+                    <div>
+                        <label class="block mb-2">Quantity</label>
+                        <input type="number" x-model="sellerForm.quantity" required 
+                               class="w-full p-2 border rounded">
+                    </div>
+                </div>
+                <div>
+                    <label class="block mb-2">Category</label>
+                    <select x-model="sellerForm.category" class="w-full p-2 border rounded">
+                        <template x-for="category in categories" :key="category">
+                            <option x-text="category"></option>
+                        </template>
+                    </select>
+                </div>
+                <button type="submit" class="w-full bg-green-600 text-white p-2 rounded hover:bg-green-700">
+                    List Item
+                </button>
+            </form>
+        </div>
+
+        <!-- Portal Section -->
+        <div x-show="currentSection === 'portal'">
+            <h4 class="text-xl font-semibold mb-4">Marketplace Management</h4>
+            <div class="space-y-4">
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block mb-2">Add Category</label>
+                        <div class="flex gap-2">
+                            <input type="text" x-model="newCategory" 
+                                   class="flex-1 p-2 border rounded">
+                            <button @click="addCategory" 
+                                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                                Add
+                            </button>
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block mb-2">Existing Categories</label>
+                        <div class="border p-2 rounded h-32 overflow-y-auto">
+                            <template x-for="category in categories" :key="category">
+                                <div class="flex justify-between items-center p-2 hover:bg-gray-50">
+                                    <span x-text="category"></span>
+                                    <button @click="removeCategory(category)" 
+                                            class="text-red-500 hover:text-red-700">
+                                        ✕
+                                    </button>
+                                </div>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                <div>
+                    <label class="block mb-2">Seller Ratings</label>
+                    <div class="space-y-2">
+                        <template x-for="seller in sellers" :key="seller.id">
+                            <div class="flex items-center justify-between p-2 border rounded">
+                                <div>
+                                    <span x-text="seller.name"></span>
+                                    <div class="flex gap-1 text-yellow-400">
+                                        <template x-for="i in 5" :key="i">
+                                            <span :class="i <= seller.rating ? 'text-yellow-400' : 'text-gray-300'">
+                                                ★
+                                            </span>
+                                        </template>
+                                    </div>
+                                </div>
+                                <button @click="rateSeller(seller.id)"
+                                        class="text-sm bg-gray-100 px-2 py-1 rounded hover:bg-gray-200">
+                                    Rate Seller
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buyer Section -->
+        <div x-show="currentSection === 'buyer'">
+            <h4 class="text-xl font-semibold mb-4">Available Items</h4>
+            <div class="space-y-4">
+                <div class="flex gap-4 mb-4">
+                    <select x-model="selectedCategory" class="p-2 border rounded">
+                        <option value="">All Categories</option>
+                        <template x-for="category in categories" :key="category">
+                            <option x-text="category"></option>
+                        </template>
+                    </select>
+                    <input type="text" x-model="searchQuery" placeholder="Search items..." 
+                           class="p-2 border rounded flex-1">
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <template x-for="item in filteredItems" :key="item.id">
+                        <div class="border rounded-lg p-4 hover:shadow-lg transition-shadow">
+                            <h5 class="font-semibold text-lg" x-text="item.name"></h5>
+                            <p class="text-gray-600" x-text="item.category"></p>
+                            <div class="flex justify-between items-center mt-2">
+                                <div>
+                                    <span class="text-green-600 font-bold" x-text="'₹'+item.price"></span>
+                                    <span class="text-sm text-gray-500 ml-2" x-text="'Qty: '+item.quantity"></span>
+                                </div>
+                                <button class="bg-blue-600 text-white px-4 py-1 rounded hover:bg-blue-700">
+                                    Contact Seller
+                                </button>
+                            </div>
+                        </div>
+                    </template>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.data('marketplaceModal', () => ({
+        showModal: false,
+        currentSection: 'seller',
+        newCategory: '',
+        selectedCategory: '',
+        searchQuery: '',
+        
+        // Data Models
+        sellerForm: {
+            name: '',
+            email: '',
+            itemName: '',
+            price: '',
+            quantity: 1,
+            category: ''
+        },
+        
+        // Local Storage Data
+        get categories() {
+            return JSON.parse(localStorage.getItem('marketplaceCategories') || '[]');
+        },
+        get sellers() {
+            return JSON.parse(localStorage.getItem('marketplaceSellers') || '[]');
+        },
+        get items() {
+            return JSON.parse(localStorage.getItem('marketplaceItems') || '[]');
+        },
+
+        // Computed Properties
+        get filteredItems() {
+            return this.items.filter(item => {
+                const matchesCategory = this.selectedCategory ? 
+                    item.category === this.selectedCategory : true;
+                const matchesSearch = item.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+                return matchesCategory && matchesSearch;
+            });
+        },
+
+        init() {
+            this.$watch('showModal', value => {
+                document.body.style.overflow = value ? 'hidden' : 'auto';
+                if (value) this.sellerForm.category = this.categories[0] || '';
+            });
+
+            window.addEventListener('open-marketplace-modal', () => {
+                this.showModal = true;
+            });
+        },
+
+        closeModal() {
+            this.showModal = false;
+            this.resetForms();
+        },
+
+        registerSeller() {
+            const sellerId = Date.now().toString();
+            const seller = {
+                id: sellerId,
+                name: this.sellerForm.name,
+                email: this.sellerForm.email,
+                rating: 0,
+                registeredAt: new Date().toISOString()
+            };
+
+            const item = {
+                id: Date.now().toString(),
+                sellerId,
+                name: this.sellerForm.itemName,
+                price: this.sellerForm.price,
+                quantity: this.sellerForm.quantity,
+                category: this.sellerForm.category,
+                listedAt: new Date().toISOString()
+            };
+
+            // Update local storage
+            const sellers = [...this.sellers, seller];
+            const items = [...this.items, item];
+            localStorage.setItem('marketplaceSellers', JSON.stringify(sellers));
+            localStorage.setItem('marketplaceItems', JSON.stringify(items));
+
+            alert('Item listed successfully!');
+            this.resetForms();
+        },
+
+        addCategory() {
+            if (this.newCategory.trim()) {
+                const categories = [...new Set([...this.categories, this.newCategory.trim()])];
+                localStorage.setItem('marketplaceCategories', JSON.stringify(categories));
+                this.newCategory = '';
+                this.sellerForm.category = this.newCategory;
+            }
+        },
+
+        removeCategory(category) {
+            const categories = this.categories.filter(c => c !== category);
+            localStorage.setItem('marketplaceCategories', JSON.stringify(categories));
+        },
+
+        rateSeller(sellerId) {
+            const rating = prompt('Rate this seller (1-5 stars):');
+            if (rating >= 1 && rating <= 5) {
+                const sellers = this.sellers.map(seller => {
+                    if (seller.id === sellerId) {
+                        return { ...seller, rating };
+                    }
+                    return seller;
+                });
+                localStorage.setItem('marketplaceSellers', JSON.stringify(sellers));
+            }
+        },
+
+        resetForms() {
+            this.sellerForm = {
+                name: '',
+                email: '',
+                itemName: '',
+                price: '',
+                quantity: 1,
+                category: this.categories[0] || ''
+            };
+            this.selectedCategory = '';
+            this.searchQuery = '';
+        }
+    }));
+});
+
+// Add click handler to marketplace card
+document.querySelector('.fa-exchange-alt').closest('.service-card').addEventListener('click', () => {
+    window.dispatchEvent(new CustomEvent('open-marketplace-modal'));
+});
+</script>
+
+<!-- Lost & Found Modal -->
+<!-- Lost & Found Modal -->
+<div x-data="lostAndFoundModal" x-cloak 
+     class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" 
+     x-show="showModal" 
+     @click.self="closeModal()">
+    <div class="bg-white rounded-lg p-4 max-w-4xl w-full mx-auto relative max-h-[90vh] overflow-y-auto">
+        <button @click="closeModal()" class="absolute top-2 right-2 text-xl text-gray-500 hover:text-gray-700">&times;</button>
+        
+        <h3 class="text-lg font-bold mb-3">Lost & Found</h3>
+        
+        <!-- Upload Image and Location -->
+        <div class="space-y-3">
+            <div>
+                <label class="block mb-1 text-xs">Upload Image of Found Item</label>
+                <input type="file" @change="handleImageUpload" accept="image/*" 
+                       class="w-full p-1 border rounded text-xs">
+                <template x-if="imagePreview">
+                    <img :src="imagePreview" class="preview-image mt-1 max-h-24">
+                </template>
+            </div>
+            <div>
+                <label class="block mb-1 text-xs">Location Where Item Was Found</label>
+                <input type="text" x-model="location" required 
+                       class="w-full p-1 border rounded text-xs">
+            </div>
+        </div>
+
+        <!-- Contact Information -->
+        <div class="mt-4">
+            <h4 class="text-base font-semibold mb-2">Contact Information</h4>
+            <div class="space-y-3">
+                <div>
+                    <label class="block mb-1 text-xs">Your Name</label>
+                    <input type="text" x-model="contactName" required 
+                           class="w-full p-1 border rounded text-xs">
+                </div>
+                <div>
+                    <label class="block mb-1 text-xs">Your Contact Number</label>
+                    <input type="tel" x-model="contactNumber" required 
+                           class="w-full p-1 border rounded text-xs">
+                </div>
+            </div>
+        </div>
+
+        <!-- College ID Portal -->
+        <div class="mt-4">
+            <h4 class="text-base font-semibold mb-2">College ID Portal</h4>
+            <div class="space-y-3">
+                <div>
+                    <label class="block mb-1 text-xs">Registration Number</label>
+                    <input type="text" x-model="regNumber" 
+                           class="w-full p-1 border rounded text-xs">
+                </div>
+                <div>
+                    <label class="block mb-1 text-xs">Location Where ID Was Found</label>
+                    <input type="text" x-model="idLocation" 
+                           class="w-full p-1 border rounded text-xs">
+                </div>
+                <button @click="sendCollegeIDEmail" 
+                        class="w-full bg-blue-600 text-white p-1 rounded hover:bg-blue-700 text-xs">
+                    Send Automated Email
+                </button>
+            </div>
+        </div>
+
+        <!-- Remove Listing -->
+        <div class="mt-4">
+            <h4 class="text-base font-semibold mb-2">Remove Listing</h4>
+            <button @click="removeListing" 
+                    class="w-full bg-red-600 text-white p-1 rounded hover:bg-red-700 text-xs">
+                Remove Listing
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('lostAndFoundModal', () => ({
+            showModal: false,
+            imagePreview: null,
+            location: '',
+            contactName: '',
+            contactNumber: '',
+            regNumber: '',
+            idLocation: '',
+    
+            init() {
+                this.$watch('showModal', value => {
+                    document.body.style.overflow = value ? 'hidden' : 'auto';
+                });
+    
+                window.addEventListener('open-lost-and-found-modal', () => {
+                    this.showModal = true;
+                });
+            },
+    
+            closeModal() {
+                this.showModal = false;
+                this.resetForms();
+            },
+    
+            handleImageUpload(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.imagePreview = e.target.result;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            },
+    
+            sendCollegeIDEmail() {
+                if (!this.regNumber || !this.idLocation) {
+                    alert('Please fill in the registration number and location.');
+                    return;
+                }
+    
+                // Simulate sending an email (replace with actual email API call)
+                alert(`Email sent to student with registration number: ${this.regNumber}`);
+                this.resetForms();
+            },
+    
+            removeListing() {
+                if (confirm('Are you sure you want to remove this listing?')) {
+                    alert('Listing removed successfully!');
+                    this.resetForms();
+                }
+            },
+    
+            resetForms() {
+                this.imagePreview = null;
+                this.location = '';
+                this.contactName = '';
+                this.contactNumber = '';
+                this.regNumber = '';
+                this.idLocation = '';
+            }
+        }));
+    });
+    
+    // Add click handler to Lost & Found card
+    document.querySelector('.fa-search').closest('.service-card').addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('open-lost-and-found-modal'));
+    });
+</script>
+
+<!-- Floor Management Modal -->
+<div x-data="floorManagementModal" x-cloak 
+     class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" 
+     x-show="showModal" 
+     @click.self="closeModal()">
+    <div class="bg-white rounded-lg p-6 max-w-4xl w-full mx-auto relative max-h-[90vh] overflow-y-auto">
+        <button @click="closeModal()" class="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-700">&times;</button>
+        
+        <h3 class="text-xl font-bold mb-6">Floor Management - Room Problems Complaint Portal</h3>
+        
+        <!-- Complaint Form -->
+        <form @submit.prevent="submitComplaint" class="space-y-4">
+            <div>
+                <label class="block mb-2 text-sm">Room Number</label>
+                <input type="text" x-model="complaintForm.roomNumber" required 
+                       class="w-full p-2 border rounded text-sm">
+            </div>
+            <div>
+                <label class="block mb-2 text-sm">Problem Type</label>
+                <select x-model="complaintForm.problemType" required 
+                        class="w-full p-2 border rounded text-sm">
+                    <option value="">Select Problem Type</option>
+                    <option value="Electrical">Electrical Issue</option>
+                    <option value="Plumbing">Plumbing Issue</option>
+                    <option value="Furniture">Furniture Damage</option>
+                    <option value="Cleaning">Cleaning Required</option>
+                    <option value="Other">Other</option>
+                </select>
+            </div>
+            <div>
+                <label class="block mb-2 text-sm">Description of the Problem</label>
+                <textarea x-model="complaintForm.description" required 
+                          class="w-full p-2 border rounded text-sm" rows="4"></textarea>
+            </div>
+            <div>
+                <label class="block mb-2 text-sm">Upload Image (Optional)</label>
+                <input type="file" @change="handleImageUpload" accept="image/*" 
+                       class="w-full p-2 border rounded text-sm">
+                <template x-if="complaintForm.imagePreview">
+                    <img :src="complaintForm.imagePreview" class="preview-image mt-2 max-h-32">
+                </template>
+            </div>
+            <button type="submit" 
+                    class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 text-sm">
+                Submit Complaint
+            </button>
+        </form>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('floorManagementModal', () => ({
+            showModal: false,
+            complaintForm: {
+                roomNumber: '',
+                problemType: '',
+                description: '',
+                image: null,
+                imagePreview: null
+            },
+    
+            init() {
+                this.$watch('showModal', value => {
+                    document.body.style.overflow = value ? 'hidden' : 'auto';
+                });
+    
+                window.addEventListener('open-floor-management-modal', () => {
+                    this.showModal = true;
+                });
+            },
+    
+            closeModal() {
+                this.showModal = false;
+                this.resetForm();
+            },
+    
+            handleImageUpload(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        this.complaintForm.imagePreview = e.target.result;
+                        this.complaintForm.image = file;
+                    };
+                    reader.readAsDataURL(file);
+                }
+            },
+    
+            submitComplaint() {
+                // Simulate submitting the complaint (replace with actual API call)
+                const complaint = {
+                    roomNumber: this.complaintForm.roomNumber,
+                    problemType: this.complaintForm.problemType,
+                    description: this.complaintForm.description,
+                    image: this.complaintForm.imagePreview,
+                    submittedAt: new Date().toISOString()
+                };
+    
+                // Save to localStorage (for demonstration purposes)
+                let complaints = JSON.parse(localStorage.getItem('roomComplaints') || '[]');
+                complaints.push(complaint);
+                localStorage.setItem('roomComplaints', JSON.stringify(complaints));
+    
+                alert('Complaint submitted successfully!');
+                this.resetForm();
+            },
+    
+            resetForm() {
+                this.complaintForm = {
+                    roomNumber: '',
+                    problemType: '',
+                    description: '',
+                    image: null,
+                    imagePreview: null
+                };
+            }
+        }));
+    });
+    
+    // Add click handler to Floor Management card
+    document.querySelector('.fa-building').closest('.service-card').addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('open-floor-management-modal'));
+    });
+</script>
+
+<!-- Mess Management Modal -->
+<div x-data="messManagementModal" x-cloak 
+     class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" 
+     x-show="showModal" 
+     @click.self="closeModal()">
+    <div class="bg-white rounded-lg p-6 max-w-4xl w-full mx-auto relative max-h-[90vh] overflow-y-auto">
+        <button @click="closeModal()" class="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-700">&times;</button>
+        
+        <h3 class="text-xl font-bold mb-6">Mess Management</h3>
+        
+        <!-- Section Selector -->
+        <div class="grid grid-cols-3 gap-4 mb-8">
+            <button @click="currentSection = 'menu'"
+                    :class="currentSection === 'menu' ? 'bg-blue-100 border-blue-300' : 'hover:bg-gray-50'"
+                    class="p-4 border rounded-lg transition-colors">
+                <i class="fas fa-utensils text-xl mb-2"></i>
+                <h4 class="font-semibold">Menu & Timings</h4>
+            </button>
+            <button @click="currentSection = 'suggestions'"
+                    :class="currentSection === 'suggestions' ? 'bg-blue-100 border-blue-300' : 'hover:bg-gray-50'"
+                    class="p-4 border rounded-lg transition-colors">
+                <i class="fas fa-lightbulb text-xl mb-2"></i>
+                <h4 class="font-semibold">Suggestions</h4>
+            </button>
+            <button @click="currentSection = 'complaints'"
+                    :class="currentSection === 'complaints' ? 'bg-blue-100 border-blue-300' : 'hover:bg-gray-50'"
+                    class="p-4 border rounded-lg transition-colors">
+                <i class="fas fa-exclamation-circle text-xl mb-2"></i>
+                <h4 class="font-semibold">Complaints</h4>
+            </button>
+        </div>
+
+        <!-- Menu & Timings Section -->
+        <div x-show="currentSection === 'menu'">
+            <h4 class="text-lg font-semibold mb-4">Menu & Timings</h4>
+            <div class="space-y-4">
+                <div>
+                    <h5 class="font-semibold">Breakfast</h5>
+                    <p class="text-sm text-gray-600">7:00 AM - 9:00 AM</p>
+                    <p class="text-sm text-gray-600">Menu: Poha, Idli, Bread, Butter, Tea</p>
+                </div>
+                <div>
+                    <h5 class="font-semibold">Lunch</h5>
+                    <p class="text-sm text-gray-600">12:00 PM - 2:00 PM</p>
+                    <p class="text-sm text-gray-600">Menu: Rice, Dal, Sabzi, Roti, Salad</p>
+                </div>
+                <div>
+                    <h5 class="font-semibold">Dinner</h5>
+                    <p class="text-sm text-gray-600">7:00 PM - 9:00 PM</p>
+                    <p class="text-sm text-gray-600">Menu: Rice, Dal, Sabzi, Roti, Dessert</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Suggestions Section -->
+        <div x-show="currentSection === 'suggestions'">
+            <h4 class="text-lg font-semibold mb-4">Suggestion Portal</h4>
+            <div class="space-y-4">
+                <div>
+                    <label class="block mb-2 text-sm">Your Suggestion</label>
+                    <textarea x-model="suggestionForm.text" required 
+                              class="w-full p-2 border rounded text-sm" rows="4"></textarea>
+                </div>
+                <button @click="submitSuggestion" 
+                        class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 text-sm">
+                    Submit Suggestion
+                </button>
+                <div>
+                    <h5 class="font-semibold mb-2">Vote on Suggestions</h5>
+                    <div class="space-y-2">
+                        <template x-for="suggestion in suggestions" :key="suggestion.id">
+                            <div class="flex items-center justify-between p-2 border rounded">
+                                <span x-text="suggestion.text" class="text-sm"></span>
+                                <button @click="voteSuggestion(suggestion.id)" 
+                                        class="text-sm bg-gray-100 px-2 py-1 rounded hover:bg-gray-200">
+                                    Vote (<span x-text="suggestion.votes"></span>)
+                                </button>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Complaints Section -->
+        <div x-show="currentSection === 'complaints'">
+            <h4 class="text-lg font-semibold mb-4">Complaints Portal</h4>
+            <form @submit.prevent="submitComplaint" class="space-y-4">
+                <div>
+                    <label class="block mb-2 text-sm">Complaint Type</label>
+                    <select x-model="complaintForm.type" required 
+                            class="w-full p-2 border rounded text-sm">
+                        <option value="">Select Complaint Type</option>
+                        <option value="Food Quality">Food Quality</option>
+                        <option value="Hygiene">Hygiene</option>
+                        <option value="Service">Service</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block mb-2 text-sm">Description</label>
+                    <textarea x-model="complaintForm.description" required 
+                              class="w-full p-2 border rounded text-sm" rows="4"></textarea>
+                </div>
+                <button type="submit" 
+                        class="w-full bg-red-600 text-white p-2 rounded hover:bg-red-700 text-sm">
+                    Submit Complaint
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('messManagementModal', () => ({
+            showModal: false,
+            currentSection: 'menu',
+            suggestionForm: {
+                text: ''
+            },
+            complaintForm: {
+                type: '',
+                description: ''
+            },
+            suggestions: [],
+    
+            init() {
+                this.$watch('showModal', value => {
+                    document.body.style.overflow = value ? 'hidden' : 'auto';
+                });
+    
+                window.addEventListener('open-mess-management-modal', () => {
+                    this.showModal = true;
+                });
+    
+                // Load suggestions from localStorage
+                this.suggestions = JSON.parse(localStorage.getItem('messSuggestions') || []);
+            },
+    
+            closeModal() {
+                this.showModal = false;
+                this.resetForms();
+            },
+    
+            submitSuggestion() {
+                if (!this.suggestionForm.text) {
+                    alert('Please enter your suggestion.');
+                    return;
+                }
+    
+                const suggestion = {
+                    id: Date.now().toString(),
+                    text: this.suggestionForm.text,
+                    votes: 0
+                };
+    
+                this.suggestions.push(suggestion);
+                localStorage.setItem('messSuggestions', JSON.stringify(this.suggestions));
+    
+                alert('Suggestion submitted successfully!');
+                this.suggestionForm.text = '';
+            },
+    
+            voteSuggestion(suggestionId) {
+                const suggestion = this.suggestions.find(s => s.id === suggestionId);
+                if (suggestion) {
+                    suggestion.votes++;
+                    localStorage.setItem('messSuggestions', JSON.stringify(this.suggestions));
+                }
+            },
+    
+            submitComplaint() {
+                if (!this.complaintForm.type || !this.complaintForm.description) {
+                    alert('Please fill in all fields.');
+                    return;
+                }
+    
+                const complaint = {
+                    type: this.complaintForm.type,
+                    description: this.complaintForm.description,
+                    submittedAt: new Date().toISOString()
+                };
+    
+                // Save to localStorage (for demonstration purposes)
+                let complaints = JSON.parse(localStorage.getItem('messComplaints') || '[]');
+                complaints.push(complaint);
+                localStorage.setItem('messComplaints', JSON.stringify(complaints));
+    
+                alert('Complaint submitted successfully!');
+                this.resetForms();
+            },
+    
+            resetForms() {
+                this.suggestionForm = { text: '' };
+                this.complaintForm = { type: '', description: '' };
+            }
+        }));
+    });
+    
+    // Add click handler to Mess Management card
+    document.querySelector('.fa-utensils').closest('.service-card').addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('open-mess-management-modal'));
+    });
+</script>
+
+<!-- Laundry Management Modal -->
+<div x-data="laundryManagementModal" x-cloak 
+     class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" 
+     x-show="showModal" 
+     @click.self="closeModal()">
+    <div class="bg-white rounded-lg p-6 max-w-4xl w-full mx-auto relative max-h-[90vh] overflow-y-auto">
+        <button @click="closeModal()" class="absolute top-4 right-4 text-2xl text-gray-500 hover:text-gray-700">&times;</button>
+        
+        <h3 class="text-xl font-bold mb-6">Laundry Management</h3>
+        
+        <!-- Laundry Status -->
+        <div class="mb-6">
+            <h4 class="text-lg font-semibold mb-4">Laundry Status</h4>
+            <div class="space-y-2">
+                <div class="flex items-center justify-between p-2 border rounded">
+                    <span class="text-sm">Status:</span>
+                    <span x-text="laundryStatus" class="font-semibold"></span>
+                </div>
+                <div class="flex items-center justify-between p-2 border rounded">
+                    <span class="text-sm">Total Price:</span>
+                    <span x-text="'₹' + totalPrice" class="font-semibold"></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Schedule Pickup -->
+        <div class="mb-6">
+            <h4 class="text-lg font-semibold mb-4">Schedule Pickup</h4>
+            <div class="space-y-4">
+                <div>
+                    <label class="block mb-2 text-sm">Pickup Date & Time</label>
+                    <input type="datetime-local" x-model="pickupTime" 
+                           class="w-full p-2 border rounded text-sm">
+                </div>
+                <button @click="schedulePickup" 
+                        class="w-full bg-blue-600 text-white p-2 rounded hover:bg-blue-700 text-sm">
+                    Schedule Pickup
+                </button>
+            </div>
+        </div>
+
+        <!-- Special Instructions -->
+        <div class="mb-6">
+            <h4 class="text-lg font-semibold mb-4">Special Instructions</h4>
+            <textarea x-model="specialInstructions" 
+                      class="w-full p-2 border rounded text-sm" rows="4"></textarea>
+        </div>
+
+        <!-- Laundry History -->
+        <div>
+            <h4 class="text-lg font-semibold mb-4">Laundry History</h4>
+            <div class="space-y-2">
+                <template x-for="item in laundryHistory" :key="item.id">
+                    <div class="flex items-center justify-between p-2 border rounded">
+                        <div>
+                            <span x-text="item.date" class="text-sm"></span>
+                            <span x-text="' - ₹' + item.price" class="text-sm"></span>
+                        </div>
+                        <span x-text="item.status" class="text-sm"></span>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('alpine:init', () => {
+        Alpine.data('laundryManagementModal', () => ({
+            showModal: false,
+            laundryStatus: 'In Progress',
+            totalPrice: 0,
+            pickupTime: '',
+            specialInstructions: '',
+            laundryHistory: [],
+    
+            init() {
+                this.$watch('showModal', value => {
+                    document.body.style.overflow = value ? 'hidden' : 'auto';
+                });
+    
+                window.addEventListener('open-laundry-management-modal', () => {
+                    this.showModal = true;
+                    this.calculateTotalPrice();
+                    this.loadLaundryHistory();
+                });
+            },
+    
+            closeModal() {
+                this.showModal = false;
+                this.resetForm();
+            },
+    
+            calculateTotalPrice() {
+                // Simulate price calculation (replace with actual logic)
+                this.totalPrice = Math.floor(Math.random() * 500) + 100; // Random price between 100 and 600
+            },
+    
+            schedulePickup() {
+                if (!this.pickupTime) {
+                    alert('Please select a pickup date and time.');
+                    return;
+                }
+    
+                alert(`Pickup scheduled for ${this.pickupTime}`);
+                this.resetForm();
+            },
+    
+            loadLaundryHistory() {
+                // Load laundry history from localStorage (for demonstration purposes)
+                this.laundryHistory = JSON.parse(localStorage.getItem('laundryHistory') || []);
+            },
+    
+            resetForm() {
+                this.pickupTime = '';
+                this.specialInstructions = '';
+            }
+        }));
+    });
+    
+    // Add click handler to Laundry Management card
+    document.querySelector('.fa-tshirt').closest('.service-card').addEventListener('click', () => {
+        window.dispatchEvent(new CustomEvent('open-laundry-management-modal'));
+    });
+</script>
+</body>
+</html>
